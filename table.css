@@ -1,0 +1,57 @@
+u1-table {
+    overflow: auto;
+}
+
+u1-table[broken] > table {
+    display: block;
+    xwidth:100%;
+}
+u1-table[broken] > table > * { /* group */
+    display: block;
+}
+u1-table[broken] > table > * > * { /* row */
+    display: block;
+}
+u1-table[broken] > table > * > * > * { /* cell */
+    display: block;
+}
+u1-table[broken] > table > thead {
+    display:none;
+}
+u1-table[broken] > table > * > * > *::before { /* cell */
+    content: attr(aria-label);
+    display: block;
+    font-weight: 800; /* how mutch? */
+}
+
+
+/*
+left right using flex (space-between)
+
+u1-table[broken] > table > * > * > * { /* cell * /
+    display: flex;
+    justify-content: space-between;
+}
+*/
+
+
+
+/*
+left right using table
+
+u1-table[broken] > table {
+    display:table;
+}
+u1-table[broken] > table > * { /* group * /
+    display:contents;
+}
+u1-table[broken] > table > * > tr {
+    display:table-row-group;
+}
+u1-table[broken] > table > * > tr > * { /* cell * /
+    display: table-row;
+}
+u1-table[broken] > table > * > * > ::before {
+    display:table-cell;
+}
+*/
