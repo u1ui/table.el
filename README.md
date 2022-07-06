@@ -2,6 +2,8 @@
 Better tables
 
 - Behavior that you can't cover with CSS alone. (else see table.css)
+- Responsive (breaks of overflows)
+- Sets the header-cell text as aria-label on each cell
 
 ## Ussage
 
