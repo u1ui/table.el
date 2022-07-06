@@ -1,7 +1,8 @@
 # &lt;u1-table&gt; - element
 Better tables
 
-- Behavior that you can't cover with CSS alone. (else see table.css)
+## Features
+- Behavior that you can't cover without css.
 - Responsive (breaks of overflows)
 - Sets the header-cell text as aria-label on each cell
 
