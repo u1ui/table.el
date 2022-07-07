@@ -2,6 +2,7 @@
 Better tables
 
 ## Features
+
 - Behavior that you can't cover without css.
 - Responsive (breaks of overflows)
 - Sets the header-cell text as aria-label on each cell

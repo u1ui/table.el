@@ -25,12 +25,27 @@ u1-table[broken] > table > * > * > *::before { /* cell */
 }
 
 
+
+/*
+trs ina grid
+.-m-cms-cont-cd-haus u1-table[broken] tbody {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  grid-gap: 1rem;
+}
+*/
+
+
 /*
 left right using flex (space-between)
 
 u1-table[broken] > table > * > * > * { /* cell * /
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+
+    padding: .4rem 0;
+    gap: 0 1rem;
 }
 */
 

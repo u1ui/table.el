@@ -12,37 +12,51 @@ class Table extends HTMLElement {
                 overflow: auto;
             }
             </style>
+            <div id=tools style="xdisplay:flex; justify-content:end" hidden>
+                <button type=button>fullscreen</button>
+            </div>
             <slot></slot>
         `;
+        this.table = this.firstElementChild;
     }
     connectedCallback() {
-        /* auto break */
-        this.table = this.firstElementChild;
+        // resize
         // this.addEventListener('overflow', e => {}); // firefox
         // this.addEventListener('underflow', e => {}); // firefox
         // this.addEventListener('overflowchanged', e => {}); // safari
-        this.resizeObs = new ResizeObserver(entries => {
-            const overflows = this.scrollWidth > this.clientWidth;
-            if (overflows) this._breakpoint = this.scrollWidth; // overflows && this._breakpoint === null ???
-
-            if (this._breakpoint != null && this._breakpoint > this.clientWidth) {
-                this.setAttribute('broken', '');
-            } else {
-                this.removeAttribute('broken');
-            }
-        });
+        this.resizeObs = new ResizeObserver(entries => this._checkResize());
         this.resizeObs.observe(this);
 
-
-        this.mutObs = new MutationObserver(mutations => {
-            this._onmutate();
-        });
+        // mutations
+        this.mutObs = new MutationObserver(mutations => this._checkMutations());
         this.mutObs.observe(this, {childList: true, subtree: true});
-        this._onmutate();
-    }
-    _onmutate() {
+        this._checkMutations();
 
-        this._breakpoint = null; // reset evaluated breakpoint
+        this.shadowRoot?.querySelector('#tools button')?.addEventListener('click', () => {
+            this.shadowRoot.querySelector('slot').requestFullscreen()
+        });
+
+    }
+
+    static get observedAttributes() { return ['sortable']; }
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'sortable') makeSortable(this.table, newValue !== null);
+    }
+
+    _checkResize() {
+
+        //console.log('check resize');
+
+        const overflows = this.scrollWidth > this.clientWidth;
+        if (overflows) this._breakpoint = this.scrollWidth; // overflows && this._breakpoint === null ???
+
+        if (this._breakpoint != null && this._breakpoint > this.clientWidth) {
+            this.setAttribute('broken', '');
+        } else {
+            this.removeAttribute('broken');
+        }
+    }
+    _checkMutations() {
 
         // set aria-labels
         const tr = this.table.querySelector(':scope > thead > tr');
@@ -55,18 +69,64 @@ class Table extends HTMLElement {
                 }
             }
         }
+        this._breakpoint !== null && this._checkResize();
     }
 
     get columns() {
-        if (!this._columns) this._columns = new Columns(this.table);
+        if (!this._columns) this._columns = getTableColumns(this.table);
         return this._columns;
     }
 
 }
 
 
-/* are there memory leaks? */
 
+/* sortable */
+const getCellValue = (tr, idx) => tr.children[idx].innerText.trim(); // todo use columns
+
+const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+    v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+)(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+function makeSortable(table, ok=true) {
+    table[ok?'addEventListener':'removeEventListener']('click', sortableClick);
+}
+function sortableClick(e){
+    const table = this;
+    const columns = getTableColumns(table);
+    const th = e.target.closest('thead > tr > *');
+    if (!th) return;
+
+    const attr = table.parentNode.getAttribute('sortable');
+    if (attr !== '' && !e.target.matches(attr)) return;
+
+    const index = columns.indexOf(th);
+    const group = table.querySelector('tbody');
+    const trs = group.children;
+    const ascending = th.getAttribute('aria-sort') !== 'ascending';
+    for (const el of th.parentNode.children) el.removeAttribute('aria-sort');
+    th.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
+    Array.from(trs)
+        .sort(comparer(index, ascending))
+        .forEach(tr => group.appendChild(tr) );
+}
+
+
+
+
+
+/* columns */
+
+// use the factory function:
+const TableColMap = new WeakMap();
+const getTableColumns = (table) => {
+    if (!TableColMap.has(table)) {
+        TableColMap.set(table, new Columns(table));
+    }
+    return TableColMap.get(table);
+}
+
+/* are there memory leaks? */
 class Columns {
     constructor(table) {
         this.table = table;
@@ -116,6 +176,7 @@ class Column {
     }
     get headerCells(){
         const group = this.querySelector('thead');
+        return this.cellsByGroup(group);
     }
     cellsByGroup(group){
         const cells = [];
