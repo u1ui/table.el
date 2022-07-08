@@ -1,5 +1,5 @@
 # &lt;u1-table&gt; - element
-Enhenced tables (sortable, responsive...)
+Better tables
 
 ## Features
 
@@ -60,8 +60,8 @@ u1-table[\:overflows~=hide-optional] :is(td,th).optional {
 ```
 If the table still overflows, the next strategy comes into play.
 
-
 ## About
 
 - MIT License, Copyright (c) 2022 <u1> (like all repositories in this organization) <br>
 - Suggestions, ideas, finding bugs and making pull requests make us very happy. ♥
+
