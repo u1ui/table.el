@@ -1,5 +1,6 @@
 
 // creation of the u1-table element
+// todo? add roles like "table" to ensure it is a table even if untabeled using css?
 
 class Table extends HTMLElement {
     constructor() {
@@ -12,9 +13,11 @@ class Table extends HTMLElement {
                 overflow: auto;
             }
             </style>
-            <div id=tools style="xdisplay:flex; justify-content:end" hidden>
+            <!--div id=tools style="display:flex; justify-content:end">
                 <button type=button>fullscreen</button>
-            </div>
+                <select id=columnChooser></select>
+                <input type=search>
+            </div-->
             <slot></slot>
         `;
         this.table = this.firstElementChild;
@@ -51,19 +54,25 @@ class Table extends HTMLElement {
         if (overflows) this._breakpoint = this.scrollWidth; // overflows && this._breakpoint === null ???
 
         if (this._breakpoint != null && this._breakpoint > this.clientWidth) {
-            this.setAttribute('broken', '');
+            this.setAttribute(':overflows', ''); // :overflows=strategy (break, hide-optional, vertical)
         } else {
-            this.removeAttribute('broken');
+            this.removeAttribute(':overflows');
         }
     }
     _checkMutations() {
-
-        // set aria-labels
         const tr = this.table.querySelector(':scope > thead > tr');
         if (tr) {
             for (const th of tr.children) {
                 const title = th.innerText;
                 const index = this.columns.indexOf(th);
+
+                /*
+                this.shadowRoot.querySelector('#columnChooser').appendChild(
+                    new Option(title, index)
+                );
+                */
+
+                // set aria-labels
                 for (const td of this.columns.item(index).cells) {
                     td.setAttribute('aria-label', title);
                 }
@@ -82,33 +91,36 @@ class Table extends HTMLElement {
 
 
 /* sortable */
-const getCellValue = (tr, idx) => tr.children[idx].innerText.trim(); // todo use columns
-
-const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
-    v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
-)(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
-
 function makeSortable(table, ok=true) {
     table[ok?'addEventListener':'removeEventListener']('click', sortableClick);
 }
 function sortableClick(e){
     const table = this;
-    const columns = getTableColumns(table);
     const th = e.target.closest('thead > tr > *');
     if (!th) return;
 
     const attr = table.parentNode.getAttribute('sortable');
     if (attr !== '' && !e.target.matches(attr)) return;
 
+    const columns = getTableColumns(table);
     const index = columns.indexOf(th);
     const group = table.querySelector('tbody');
     const trs = group.children;
+
     const ascending = th.getAttribute('aria-sort') !== 'ascending';
     for (const el of th.parentNode.children) el.removeAttribute('aria-sort');
     th.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
-    Array.from(trs)
-        .sort(comparer(index, ascending))
-        .forEach(tr => group.appendChild(tr) );
+
+    const val = td => td.innerText.trim();
+    const tds = columns.item(index).cellsByGroup(group);
+    tds
+        .map( td => { return { td, val: td.innerText.trim() }; } )
+        .sort((a, b) => {
+            if (!ascending) [a, b] = [b, a];
+            const [v1, v2] = [a.val, b.val];
+            return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
+        })
+        .forEach(item => group.appendChild(item.td.parentNode) );
 }
 
 
@@ -141,7 +153,7 @@ class Columns {
         for (const td of cell.parentNode.children) {
             ++currentIndex;
             if (td === cell) return currentIndex;
-            if (td.columnspan > 1) currentIndex += td.columnspan -1;
+            if (td.colSpan > 1) currentIndex += td.colSpan -1;
         }
     }
     item(i) {
@@ -183,7 +195,7 @@ class Column {
         for (const row of group.children) {
             let currentIndex = -1;
             for (const cell of row.children) {
-                currentIndex += (cell.columnspan||1);
+                currentIndex += (cell.colSpan||1);
                 if (currentIndex >= this.index) {
                     cells.push(cell);
                     break; // next row

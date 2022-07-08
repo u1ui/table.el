@@ -3,98 +3,31 @@
 <head>
     <meta charset=utf-8>
     <meta name=viewport content="width=device-width">
-    <script src="../../u1/tests/test-init.js" type=module></script>
-    <title>dialog.js test.html | U1 design-system</title>
 
-    <link href="https://cdn.jsdelivr.net/gh/u1ui/base.css/full.css" rel=stylesheet>
-    <link href="https://cdn.jsdelivr.net/gh/u1ui/classless.css/variables.min.css" rel=stylesheet>
-    <link href="https://cdn.jsdelivr.net/gh/u1ui/classless.css/classless.min.css" rel=stylesheet>
-    <link href="https://cdn.jsdelivr.net/gh/u1ui/classless.css/more.min.css" rel=stylesheet>
-    <link href="https://cdn.jsdelivr.net/gh/u1ui/classless.css/simple.min.css" rel=stylesheet>
-    <link href="https://cdn.jsdelivr.net/gh/u1ui/table.class/table.css" rel=stylesheet>
-
-    <link href="../table.css" rel=stylesheet>
+    <link rel=stylesheet href="../table.css">
     <script src="../table.js" type=module></script>
 
 <body>
 
     <section>
-        <u1-table style="white-space:nowrap" id=test sortable>
+        <u1-table break sortable>
             <table>
                 <thead>
-                    <tr>
-                        <th> Firstname
-                        <th> Lastname
-                        <th> Age
-                        <th> X
+                    <tr> <th> Salut <th> Firstname <th> Lastname <th> Age <th> X
                 <tbody>
-                    <tr>
-                        <td> Adam
-                        <td> Hungentobler
-                        <td> 88
-                        <td> a
-                    <tr>
-                        <td> Wolfgang Amadeus
-                        <td> Mozart
-                        <td> 46
-                        <td> b
-                    <tr>
-                        <td> Provident, quisquam.
-                        <td> Omnis, quisquam.
-                        <td> 1
-                        <td> c
+                    <tr> <td> Herr <td> Wolfgang Amadeus <td> Mozart <td> 46 <td> b
+                    <tr> <td> Frau <td> Provident, quisquam. <td> Omnis, quisquam. <td> 1 <td> c
+                    <tr> <td> Mister <td> Provident, quisquam. <td> Laudens, quisquam. <td> 5 <td> z
             </table>
         </u1-table>
+
     </section>
 
-    <section>
-        <h2>sortable=button (selector)</h2>
-        <u1-table style="white-space:nowrap" id=test sortable="button">
-            <table>
-                <thead>
-                    <tr>
-                        <th> Firstname
-                        <th> <button>Lastname</button>
-                        <th> <button>Age</button>
-                        <th> <button>X</button> not here
-                <tbody>
-                    <tr>
-                        <td> Adam
-                        <td> Hungentobler
-                        <td> 88
-                        <td> a
-                    <tr>
-                        <td> Wolfgang Amadeus
-                        <td> Mozart
-                        <td> 46
-                        <td> b
-                    <tr>
-                        <td> Provident, quisquam.
-                        <td> Omnis, quisquam.
-                        <td> 1
-                        <td> c
-            </table>
-        </u1-table>
-    </section>
-
-
-    <style contenteditable>
-        tr > *::after {
-            content: "▲";
-            opacity:0;
+    <style>
+        u1-table {
+            white-space:nowrap;
         }
-        tr > [aria-sort=ascending]::after {
-            content: "▲";
-            opacity:1;
-        }
-        tr > [aria-sort=descending]::after {
-            content: "▼";
-            opacity:1;
+        u1-table[\:overflows][break] td::before {
+            margin-right:auto;
         }
     </style>
-
-    <script type=module>
-    // console.log(test.columns)
-    // console.log(test.columns.item(2))
-    // console.log(test.columns.item(2).cells);
-    </script>

@@ -1,54 +1,41 @@
 u1-table {
+    display:block;
     overflow: auto;
 }
-
-u1-table[broken] > table {
-    display: block;
-    xwidth:100%;
-}
-u1-table[broken] > table > * { /* group */
+u1-table[\:overflows][break] > table {
     display: block;
 }
-u1-table[broken] > table > * > * { /* row */
-    display: block;
-}
-u1-table[broken] > table > * > * > * { /* cell */
-    display: block;
-}
-u1-table[broken] > table > thead {
+u1-table[\:overflows][break] > table > thead {
     display:none;
 }
-u1-table[broken] > table > * > * > *::before { /* cell */
+u1-table[\:overflows][break] > table > * { /* group */
+    display: block;
+}
+u1-table[\:overflows][break] > table > * > * { /* row */
+    display: block;
+}
+u1-table[\:overflows][break] > table > * > * > * { /* cell */
+    display: flex;
+    /* justify-content: space-between;*/
+    gap: 0 1rem;
+    padding: .2rem 0;
+    padding-right:0;
+}
+u1-table[\:overflows][break] > table > * > * > *::before { /* cell */
     content: attr(aria-label);
     display: block;
-    font-weight: 800; /* how mutch? */
+    font-weight: bold;
 }
 
 
 
-/*
-trs ina grid
-.-m-cms-cont-cd-haus u1-table[broken] tbody {
+/* trs in a grid *
+u1-table[\:overflows][break] tbody {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min-content, 15rem));
   grid-gap: 1rem;
 }
-*/
-
-
-/*
-left right using flex (space-between)
-
-u1-table[broken] > table > * > * > * { /* cell * /
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    padding: .4rem 0;
-    gap: 0 1rem;
-}
-*/
-
+/* */
 
 
 /*
