@@ -43,8 +43,25 @@ u1-table[\:overflows][break] td::before {
 [minimal.html](http://gcdn.li/u1ui/table.el@main/tests/minimal.html)  
 [test.html](http://gcdn.li/u1ui/table.el@main/tests/test.html)  
 
+## Todo
+
+Make strategies for responsive tables like the following:
+```html
+<u1-table overflow-strategy="break hide-optional vertical-headers">
+```
+If it overflows, the script walks through the strategies in the defined order.
+And sets the state attribute `<u1-table :overflows="strategy1 strategy2 ...">`
+
+In the css there are some predefined or custom rules for the overflow-strategy.
+```css
+u1-table[\:overflows~=hide-optional] :is(td,th).optional {
+    display:none;
+}
+```
+If the table still overflows, the next strategy comes into play.
+
+
 ## About
 
 - MIT License, Copyright (c) 2022 <u1> (like all repositories in this organization) <br>
 - Suggestions, ideas, finding bugs and making pull requests make us very happy. ♥
-
