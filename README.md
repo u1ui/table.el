@@ -1,5 +1,5 @@
 # &lt;u1-table&gt; - element
-Better tables
+Enhanced tables (sortable, responsive...)
 
 ## Features
 
