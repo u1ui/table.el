@@ -13,11 +13,11 @@ Enhanced tables (sortable, responsive...)
 <u1-table break sortable>
     <table>
         <thead>
-            <tr> <th> Salut  <th> Firstname         <th> Lastname    <th> Age <th> X
+            <tr><th> Salut  <th> Firstname         <th> Lastname    <th> Age <th> X
         <tbody>
-            <tr> <td> Herr   <td> Wolfgang Amadeus  <td> Mozart      <td> 46  <td> b
-            <tr> <td> Frau   <td> Hans              <td> Muster      <td> 1   <td> c
-            <tr> <td> Mister <td> Fridrich          <td> Langenegger <td> 5   <td> z
+            <tr><td> Herr   <td> Wolfgang Amadeus  <td> Mozart      <td> 46  <td> b
+            <tr><td> Frau   <td> Hans              <td> Muster      <td> 1   <td> c
+            <tr><td> Mister <td> Fridrich          <td> Langenegger <td> 5   <td> z
     </table>
 </u1-table>
 ```
