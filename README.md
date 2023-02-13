@@ -34,8 +34,8 @@ u1-table[\:overflows][break] td::before {
 ## Install
 
 ```html
-<link href="https://cdn.jsdelivr.net/gh/u1ui/table.el@1.0.1/table.min.css" rel=stylesheet>
-<script src="https://cdn.jsdelivr.net/gh/u1ui/table.el@1.0.1/table.min.js" type=module>
+<link href="https://cdn.jsdelivr.net/gh/u1ui/table.el@x.x.x/table.min.css" rel=stylesheet>
+<script src="https://cdn.jsdelivr.net/gh/u1ui/table.el@x.x.x/table.min.js" type=module>
 ```
 
 ## Demos
