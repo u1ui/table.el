@@ -48,7 +48,14 @@ class Table extends HTMLElement {
 
     _checkResize() {
 
-        //console.log('check resize');
+        this.resizeLimite = this.resizeLimite == null ? 1 : this.resizeLimite+1;
+        if (this.resizeLimite>10) {
+            console.warn('debug: ur-table element resized to often');
+            setTimeout(()=>{
+                this.resizeLimite = 0;
+            }, 400);
+            return;
+        }
 
         const overflows = this.scrollWidth > this.clientWidth;
         if (overflows) this._breakpoint = this.scrollWidth; // overflows && this._breakpoint === null ???
