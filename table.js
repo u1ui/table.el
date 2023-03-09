@@ -49,8 +49,8 @@ class Table extends HTMLElement {
     _checkResize() {
 
         this.resizeLimite = this.resizeLimite == null ? 1 : this.resizeLimite+1;
-        if (this.resizeLimite>10) {
-            console.warn('debug: ur-table element resized to often');
+        if (this.resizeLimite>20) {
+            console.warn('debug: u1-table element resized to often');
             setTimeout(()=>{
                 this.resizeLimite = 0;
             }, 400);
