@@ -118,10 +118,9 @@ function sortableClick(e){
     for (const el of th.parentNode.children) el.removeAttribute('aria-sort');
     th.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
 
-    const val = td => td.innerText.trim();
     const tds = columns.item(index).cellsByGroup(group);
     tds
-        .map( td => { return { td, val: td.innerText.trim() }; } )
+        .map( td => { return { td, val: td.getAttribute('data-sortby') ?? td.innerText.trim() }; } )
         .sort((a, b) => {
             if (!ascending) [a, b] = [b, a];
             const [v1, v2] = [a.val, b.val];
