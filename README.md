@@ -6,6 +6,7 @@ Enhanced tables (sortable, responsive...)
 - Behavior that you can't cover without css.
 - Responsive (breaks of overflows)
 - Sets the header-cell text as aria-label on each cell
+- Use attribute `data-sortby` to customize the sort order
 
 ## Ussage
 
@@ -64,4 +65,3 @@ If the table still overflows, the next strategy comes into play.
 
 - MIT License, Copyright (c) 2022 <u1> (like all repositories in this organization) <br>
 - Suggestions, ideas, finding bugs and making pull requests make us very happy. ♥
-
