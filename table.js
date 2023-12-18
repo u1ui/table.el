@@ -23,10 +23,6 @@ class Table extends HTMLElement {
         this.table = this.firstElementChild;
     }
     connectedCallback() {
-        // resize
-        // this.addEventListener('overflow', e => {}); // firefox
-        // this.addEventListener('underflow', e => {}); // firefox
-        // this.addEventListener('overflowchanged', e => {}); // safari
         this.resizeObs = new ResizeObserver(entries => this._checkResize());
         this.resizeObs.observe(this);
 
