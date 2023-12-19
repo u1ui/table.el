@@ -36,7 +36,7 @@ u1-table[\:overflows][break] td::before {
 
 ```html
 <link href="https://cdn.jsdelivr.net/gh/u1ui/table.el@x.x.x/table.min.css" rel=stylesheet>
-<script src="https://cdn.jsdelivr.net/gh/u1ui/table.el@x.x.x/table.min.js" type=module>
+<script src="https://cdn.jsdelivr.net/gh/u1ui/table.el@x.x.x/table.min.js" type=module></script>
 ```
 
 ## Demos
