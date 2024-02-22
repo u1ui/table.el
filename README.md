@@ -8,7 +8,7 @@ Enhanced tables (sortable, responsive...)
 - Sets the header-cell text as aria-label on each cell
 - Use attribute `data-sortby` to customize the sort order
 
-## Ussage
+## Usage
 
 ```html
 <u1-table break sortable>
